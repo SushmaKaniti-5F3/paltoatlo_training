@@ -1,0 +1,103 @@
+You are given two arrays A and B consisting of N integers each.
+
+Index K is named fair if the four sums (A[0] + ... + A[K-1]), (A[k] + ... + A[N-1]), (B[0] + ... + B[k-1]) and (B[K] + ... + B[N-1]) are all equal. 
+In other words, K is the index where the two arrays, A and B, can be split (into two non-empty arrays each) in such a way 
+that the sums of the resulting arrays' elements are equal.
+
+Example 1:
+Input: A = [4, -1, 0, 3], B = [-2, 5, 0, 3]
+Output: 2
+Explanation:
+The fair indexes are 2 and 3. In both cases, the sums of elements the subarrays are equal to 3.
+
+For index = 2;
+4 + (-1) = 3; 0 + 3 = 3;
+-2 + 5 = 3; 0 + 3 = 3;
+
+Example 2:
+Input: A = [2, -2, -3, 3], B = [0, 0, 4, -4]
+Output: 1
+Explanation:
+The only fair index is 2.
+
+--------------------------------------- BRUTE FORCE APPROACH --------------------------------------------
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+		int n;
+		cin>>n;
+		int a[n],b[n];
+		int p1[n],p2[n];
+		for(int i=0;i<n;i++)
+		{
+			cin>>a[i];
+		}
+		for(int i=0;i<n;i++)
+		{
+			cin>>b[i];
+		}
+		int c=0;
+		for(int i=1;i<n;i++)
+		{
+			int l1=0,l2=0,r1=0,r2=0;
+			for(int j=0;j<i;j++)
+			{
+				l1+=a[j];
+				l2+=b[j];
+			}
+			for(int k=i;k<n;k++)
+			{
+				r1+=a[k];
+				r2+=b[k];
+			}
+			if(l1==r1 and l2==r2 and l1==r2 and l2==r1 ){
+			c++;	
+			}	
+		}
+		cout<<c;
+}
+
+
+---------------------------------------- USING PREFIX -------------------------------------------------------------------------
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+		int n;
+		cin>>n;             //4
+		int a[n],b[n];
+		int p1[n],p2[n];
+		for(int i=0;i<n;i++)
+		{
+			cin>>a[i];        //4 -1 0 3
+		}
+		for(int i=0;i<n;i++)
+		{
+			cin>>b[i];        //-2 5 0 3
+		}
+    // Prefix implementation
+		p1[0]=a[0];
+		p2[0]=b[0];
+		for(int i=1;i<n;i++)
+		{
+			p1[i]=p1[i-1]+a[i]; //4 3 3 6
+			p2[i]=p2[i-1]+b[i]; //-2 3 3 6
+		}
+    int c=0;
+		int l1=0,l2=0,r1=0,r2=0;
+		for(int i=1;i<n;i++)
+		{
+			l1=p1[i-1];
+			l2=p2[i-1];
+			r1=p1[n-1]-p1[i-1];
+			r2=p2[n-1]-p2[i-1];
+			//cout<< l1<<" "<<l2<<" "<<r1<<" "<<r2<<" ";
+			if(l1==r1 and l2==r2 and l1==r2 and l2==r1 ){
+			c++;	
+			}	
+		}
+		cout<<c;
+}
