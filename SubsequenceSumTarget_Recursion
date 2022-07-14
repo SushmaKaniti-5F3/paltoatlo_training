@@ -1,0 +1,53 @@
+//Subsequence sum equals target
+#include<bits/stdc++.h>
+using namespace std;
+
+void SeqSum(int ind,int n,vector<int>&v,int a[],int t)
+{
+	if(ind==n)
+	{
+		if(t==0)
+		{
+			for(auto i:v)
+				cout<< i<<" ";
+			cout<<endl;
+		}
+		return;
+	}
+	//for pick
+	if(a[ind]<=t){
+		v.push_back(a[ind]);
+		t=t-a[ind];
+		SeqSum(ind+1,n,v,a,t);
+		t=t+a[ind];
+		v.pop_back();
+	}
+	//for non pick
+	SeqSum(ind+1,n,v,a,t);
+}
+int main()
+{
+	int n;
+	cin>>n;
+	int a[n];
+	for(int i=0;i<n;i++)
+	{
+		cin>>a[i];
+	}
+	int t;
+	cin>>t;
+	vector<int>v;
+	SeqSum(0,n,v,a,t);
+}
+
+I/p:
+------
+5
+1 2 3 4 5
+5
+
+O/p:
+----
+1 4 
+2 3 
+5 
